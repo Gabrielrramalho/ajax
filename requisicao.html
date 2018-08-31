@@ -9,6 +9,18 @@
     <script src="jquery.js"></script>
     <script>
         $(function () {
+            $.ajax({
+                url: 'texto.txt',
+                success:function(r){
+                    //console.log(r);
+                    //alert('encontrou');
+                    $('h1').after('<h2>'+r+'</h2>');
+                },
+                error:function(){
+                 alert('Ocorreu um erro!!')
+                }
+
+            });
 
         });
     </script>
