@@ -9,18 +9,68 @@
     <script src="jquery.js"></script>
     <script>
         $(function () {
+
+            //puxa texto
             $.ajax({
                 url: 'texto.txt',
-                success:function(r){
+                success: function (r) {
                     //console.log(r);
                     //alert('encontrou');
-                    $('h1').after('<h2>'+r+'</h2>');
+                    $('h1').after('<h2>' + r + '</h2>');
                 },
-                error:function(){
-                 alert('Ocorreu um erro!!')
+                error: function () {
+                    alert('Ocorreu um erro!!')
                 }
 
             });
+
+            //ajax consulta html
+
+            $.ajax({
+                url: 'texto.html',
+                success: function (a) {
+                    //console.log(r);
+                    //alert('encontrou');
+                    $('h1').after('<h2>' + a + '</h2>');
+                },
+                error: function () {
+                    alert('Ocorreu um erro!!')
+                }
+
+            });
+            //AJAX consulta JSON
+            $.ajax({
+                url: 'texto.json',
+                success: function (u) {
+                    $.each(u, function (indice, obj) {
+                        $('#listaUsuarios').append('<li>'+obj.nome+ '-' +obj.email+'</li>');
+                    });
+                    //console.log(r);
+                    //alert('encontrou');
+                    
+                },
+                error: function () {
+                    alert('Ocorreu um erro!!')
+                }
+
+            });
+
+             //blur quando clica fora do campo
+            $('#cep').blur(function(){
+               $.ajax({
+                   url: 'https://viacep.com.br/ws/'+$(this).val()+'/json/ ',
+                   success: function(a){
+                       $('#endereco').html(a.logradouro+' '+a.complemento+' ('+a.bairro+') '+a.localidade+' '+a.uf);
+
+                   },
+                   error:function(){
+                       alert('Não foi possivel obter conexao com o servidor!')
+                   }
+            });
+            });
+
+            
+
 
         });
     </script>
@@ -32,3 +82,13 @@
         rapidas pela troca de pequenas quantidades de informação.</p>
     <p>Evita que uma pagina inteira seja recarregada cada vex que alguma nova informação precisa ser consultada no
         servidor.</p>
+    <div>
+        <h2>Lista de usuarios</h2>
+        <ul id="listaUsuarios">
+
+        </ul>
+        <h2>Endereço Via cep</h2>
+        <input type="text" name="cep" id="cep" maxlength="8"><br>
+        <span id="endereco"></span>
+    </div>
+</body>
